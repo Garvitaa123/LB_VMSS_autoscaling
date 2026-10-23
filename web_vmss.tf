@@ -1,4 +1,3 @@
-# Web VMSS + Autoscaling
 
 resource "azurerm_linux_virtual_machine_scale_set" "web" {
   name                = "${var.prefix}-web-vmss"
@@ -42,7 +41,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "web" {
     }
   }
 
-  # Simple web page so the LB probe on port 80 succeeds
+  #web page so the LB probe on port 80 succeeds
   custom_data = base64encode(<<-CLOUD
     #!/bin/bash
     apt-get update -y
@@ -58,7 +57,6 @@ resource "azurerm_linux_virtual_machine_scale_set" "web" {
   ]
 }
 
-# VMSS Autoscaling (min 1, max 2 -> stays inside the 4 vCPU free-trial quota)
 resource "azurerm_monitor_autoscale_setting" "web" {
   name                = "${var.prefix}-web-autoscale"
   location            = azurerm_resource_group.rg.location
